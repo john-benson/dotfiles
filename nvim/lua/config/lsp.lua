@@ -5,8 +5,6 @@ local cmp_action = lsp_zero.cmp_action()
 local lsp_attach = function(client, bufnr) 
   local opts = {buffer = bfnr}
 
-  print("test")
-
   vim.keymap.set('n', '<Leader>cK', '<Cmd>lua vim.lsp.buf.hover()<Cr>', opts)
   vim.keymap.set('n', '<Leader>cd', '<Cmd>lua vim.lsp.buf.definition()<Cr>', opts)
   vim.keymap.set('n', '<Leader>cD', '<Cmd>lua vim.lsp.buf.declaration()<Cr>', opts)
@@ -95,3 +93,6 @@ lspconfig.lua_ls.setup({
     Lua = {}
   }
 })
+
+-- Java
+lspconfig.jdtls.setup({})

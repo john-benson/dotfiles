@@ -1,8 +1,6 @@
 vim.g.mapleader="<Space>"
 vim.api.nvim_set_keymap('n', '<Space>', '<Nop>', { noremap = true, silent = true })
 
-print("init.lua")
-
 require('config.lazy')
 require('config.neotree')
 require('config.telescope')
@@ -14,4 +12,4 @@ vim.opt.termguicolors = true
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
-vim.bo.softtabstop = 2 
+vim.bo.softtabstop = 2

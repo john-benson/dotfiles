@@ -1,5 +1,3 @@
 #!/bin/bash
 
-rm -rf ~/.config/nvim
-cp -rf ./nvim ~/.config/nvim
-
+rsync -a ./nvim ~/.config/ 
