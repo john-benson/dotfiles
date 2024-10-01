@@ -57,3 +57,6 @@ lspconfig.rust_analyzer.setup({})
 
 -- TypeScript
 lspconfig.tsserver.setup({})
+
+-- Go
+lspconfig.gopls.setup({})
