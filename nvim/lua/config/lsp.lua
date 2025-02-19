@@ -96,3 +96,6 @@ lspconfig.lua_ls.setup({
 
 -- Java
 lspconfig.jdtls.setup({})
+
+-- Svelete
+lspconfig.svelte.setup({})

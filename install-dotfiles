@@ -1,3 +1,4 @@
 #!/bin/bash
 
 rsync -a ./nvim ~/.config/ 
+rsync -a ./utils ~/.local/bin

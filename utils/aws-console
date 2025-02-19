@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# HOW TO USE:
+# Pass your AWS CLI profile as the first command-line argument when running the script. The script will fail if no argument is provided.
+
+# Get the profile from the first command-line argument
+PROFILE="$1"
+
+# Verify PROFILE argument
+if [[ -z "$PROFILE" ]]; then
+  echo "Error: No profile provided. Please pass your AWS CLI profile as the first argument."
+  echo "Usage: $0 <AWS_PROFILE>"
+  exit 1
+fi
+
+# Replace with your AWS username
+USERNAME="example-user"
+
+# Get temporary credentials
+CREDS=$(aws sts get-federation-token --name "$USERNAME" --profile "$PROFILE" --output json)
+ACCESS_KEY=$(echo "$CREDS" | jq -r '.Credentials.AccessKeyId')
+SECRET_KEY=$(echo "$CREDS" | jq -r '.Credentials.SecretAccessKey')
+SESSION_TOKEN=$(echo "$CREDS" | jq -r '.Credentials.SessionToken')
+
+# Validate credential extraction
+if [[ -z "$ACCESS_KEY" || -z "$SECRET_KEY" || -z "$SESSION_TOKEN" ]]; then
+  echo "Error: Failed to retrieve temporary credentials. Verify the PROFILE and USERNAME variables."
+  exit 1
+fi
+
+# Generate a sign-in token
+SIGNIN_TOKEN=$(curl -s "https://signin.aws.amazon.com/federation?Action=getSigninToken&SessionDuration=3600&Session={\"sessionId\":\"$ACCESS_KEY\",\"sessionKey\":\"$SECRET_KEY\",\"sessionToken\":\"$SESSION_TOKEN\"}" | jq -r '.SigninToken')
+
+# Validate sign-in token generation
+if [[ -z "$SIGNIN_TOKEN" ]]; then
+  echo "Error: Failed to generate sign-in token."
+  exit 1
+fi
+
+# Create the final console URL
+CONSOLE_URL="https://signin.aws.amazon.com/federation?Action=login&Issuer=Example&Destination=https%3A%2F%2Fconsole.aws.amazon.com%2F&SigninToken=$SIGNIN_TOKEN"
+
+echo "Console URL: $CONSOLE_URL"
+
+
